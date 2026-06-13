@@ -1,0 +1,489 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\setCJKmainfont{Microsoft JhengHei}
+\setCJKsansfont{Microsoft JhengHei}
+\setCJKmonofont{Microsoft JhengHei}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\geometry{margin=2cm}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems,skins,breakable}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue!70!black,urlcolor=blue}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small 複變函數論期末複習}
+\fancyhead[R]{\small \thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\newtcolorbox{theorembox}[1][]{
+  colback=blue!5!white,
+  colframe=blue!60!black,
+  fonttitle=\bfseries,
+  title=#1,
+  breakable
+}
+
+\newtcolorbox{defbox}[1][]{
+  colback=green!5!white,
+  colframe=green!50!black,
+  fonttitle=\bfseries,
+  title=#1,
+  breakable
+}
+
+\newtcolorbox{keybox}[1][]{
+  colback=red!5!white,
+  colframe=red!60!black,
+  fonttitle=\bfseries,
+  title=#1,
+  breakable
+}
+
+\newtcolorbox{exbox}[1][]{
+  colback=orange!5!white,
+  colframe=orange!60!black,
+  fonttitle=\bfseries,
+  title=#1,
+  breakable
+}
+
+\titleformat{\section}{\Large\bfseries}{第\thesection 章\quad}{0pt}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection\quad}{0pt}{}
+
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\ee}{\mathrm{e}}
+\newcommand{\Res}{\operatorname{Res}}
+\newcommand{\PV}{\operatorname{P.V.}}
+
+\begin{document}
+
+\begin{center}
+{\LARGE\bfseries 複變函數論\,---\,期末考複習筆記}\\[6pt]
+{\large Chapter 5: 複數平面上的積分 \quad Chapter 6: 級數與留數}\\[4pt]
+\today
+\end{center}
+
+\tableofcontents
+\newpage
+
+%=============================================================
+\section{複數平面上的積分 (Integration in the Complex Plane)}
+%=============================================================
+
+%-------------------------------------------------------------
+\subsection{5.1 實數積分回顧}
+%-------------------------------------------------------------
+
+\begin{defbox}[定積分]
+$$\int_a^b f(x)\dd{x} = \lim_{\|P\|\to 0}\sum_{k=1}^{n}f(x_k^*)\,\Delta x_k = F(b)-F(a)$$
+\end{defbox}
+
+\subsubsection*{曲線的參數化}
+曲線 $C$ 可藉由 $x=x(t),\ y=y(t),\ a\le t\le b$ 參數化，其中 $x(t),y(t)$ 為連續實函數。
+\begin{itemize}[nosep]
+\item \textbf{平滑曲線 (smooth curve)}：$z(t)$ 為一對一函數，$x'(t),y'(t)$ 連續且不同時為零。
+\item \textbf{分段平滑曲線 (piecewise smooth curve)}：由有限個平滑曲線 $C_1,\dots,C_n$ 首尾相連。
+\item \textbf{簡單曲線 (simple curve)}：曲線不自交（起終點除外）。
+\item \textbf{封閉曲線 (closed curve)}：起點 $=$ 終點。
+\item \textbf{簡單封閉曲線 (simple closed curve)}：不自交且封閉。
+\end{itemize}
+
+\subsubsection*{線積分的參數化計算}
+\begin{align}
+\int_C G(x,y)\dd{x} &= \int_a^b G\bigl(x(t),y(t)\bigr)\,\frac{\dd{x}}{\dd{t}}\dd{t} \\
+\int_C G(x,y)\dd{y} &= \int_a^b G\bigl(x(t),y(t)\bigr)\,\frac{\dd{y}}{\dd{t}}\dd{t} \\
+\int_C G(x,y)\dd{s} &= \int_a^b G\bigl(x(t),y(t)\bigr)\sqrt{\left(\frac{\dd{x}}{\dd{t}}\right)^2+\left(\frac{\dd{y}}{\dd{t}}\right)^2}\;\dd{t}
+\end{align}
+
+%-------------------------------------------------------------
+\subsection{5.2 複數積分 (Complex Integrals)}
+%-------------------------------------------------------------
+
+\begin{defbox}[複數積分定義]
+$$\int_C f(z)\dd{z} = \lim_{\|P\|\to 0}\sum_{k=1}^n f(z_k^*)\,\Delta z_k$$
+\end{defbox}
+
+\begin{itemize}[nosep]
+\item $\oint_C f(z)\dd{z}$：逆時針為\textbf{正方向}（positively oriented）。
+\item $\displaystyle\oint_{-C} f(z)\dd{z}$：順時針為\textbf{負方向}。
+\end{itemize}
+
+\begin{theorembox}[Theorem 5.2.1 --- 圍道積分的計算]
+若 $f$ 在光滑曲線 $C: z(t)=x(t)+\ii y(t),\ a\le t\le b$ 上連續，則
+$$\int_C f(z)\dd{z} = \int_a^b f\bigl(z(t)\bigr)\,z'(t)\dd{t}$$
+\end{theorembox}
+
+\begin{keybox}[計算步驟]
+\begin{enumerate}[nosep]
+\item 將 $z$ 參數化：$z=z(t)$，求 $\dfrac{\dd{z}}{\dd{t}}$。
+\item 將 $f(z)$ 以 $t$ 表示。
+\item 計算 $\displaystyle\int_a^b f(z(t))\cdot z'(t)\dd{t}$。
+\end{enumerate}
+\end{keybox}
+
+\begin{exbox}[典型範例]
+計算 $\displaystyle\oint_C \frac{1}{z}\dd{z}$，其中 $C:|z|=1$ 逆時針。
+
+令 $z=\ee^{\ii t},\ 0\le t\le 2\pi$，則 $\dd{z}=\ii\ee^{\ii t}\dd{t}$：
+$$\oint_C \frac{1}{z}\dd{z}=\int_0^{2\pi}\frac{1}{\ee^{\ii t}}\cdot\ii\ee^{\ii t}\dd{t}=\int_0^{2\pi}\ii\dd{t}=2\pi\ii$$
+\end{exbox}
+
+\begin{theorembox}[Theorem 5.2.2 --- 圍道積分性質]
+\begin{enumerate}[nosep]
+\item $\displaystyle\int_C kf(z)\dd{z}=k\int_C f(z)\dd{z}$
+\item $\displaystyle\int_C[f(z)+g(z)]\dd{z}=\int_C f(z)\dd{z}+\int_C g(z)\dd{z}$
+\item $\displaystyle\int_C f(z)\dd{z}=\int_{C_1}f(z)\dd{z}+\int_{C_2}f(z)\dd{z}$（$C=C_1+C_2$ 首尾相連）
+\item $\displaystyle\int_{-C}f(z)\dd{z}=-\int_C f(z)\dd{z}$（反向）
+\end{enumerate}
+\end{theorembox}
+
+\begin{theorembox}[Theorem 5.2.3 --- ML 不等式（估界定理）]
+若 $f$ 在光滑曲線 $C$ 上連續且 $|f(z)|\le M$，則
+$$\left|\int_C f(z)\dd{z}\right|\le ML$$
+其中 $L$ 為曲線 $C$ 的長度，$L=\displaystyle\int_a^b\sqrt{[x'(t)]^2+[y'(t)]^2}\dd{t}$。
+\end{theorembox}
+
+\begin{exbox}[ML 不等式範例]
+求 $\displaystyle\left|\oint_C\frac{\ee^z}{z+1}\dd{z}\right|$ 的上界，$C:|z|=4$。
+
+$L=2\pi\cdot4=8\pi$。在 $|z|=4$ 上：$|\ee^z|\le \ee^4$，$|z+1|\ge||z|-1|=3$。
+
+故 $M=\dfrac{\ee^4}{3}$，上界 $=ML=\dfrac{8\pi\ee^4}{3}$。
+\end{exbox}
+
+%-------------------------------------------------------------
+\subsection{5.3 Cauchy--Goursat 定理}
+%-------------------------------------------------------------
+
+\begin{defbox}[連通區域]
+\begin{itemize}[nosep]
+\item \textbf{單連通區域 (simply connected domain)}：任何簡單封閉曲線都可連續收縮為一點，仍保持在該 domain 內。（無洞）
+\item \textbf{多連通區域 (multiply connected domain)}：有一個洞為 doubly connected；兩個洞為 triply connected。
+\end{itemize}
+\end{defbox}
+
+\begin{theorembox}[Theorem 5.3.1 --- Cauchy--Goursat 定理]
+若 $f$ 在\textbf{單連通區域} $D$ 內解析，則對 $D$ 內任意簡單封閉曲線 $C$：
+$$\oint_C f(z)\dd{z}=0$$
+\end{theorembox}
+
+\begin{keybox}[判斷要點]
+\begin{itemize}[nosep]
+\item 確認 $f$ 在 $C$ 所圍區域內\textbf{處處解析}（無奇異點）。
+\item 若不可解析的點在 $C$ 以外，積分仍為 $0$。
+\item 若不可解析的點在 $C$ 以內，\textbf{不能}直接用此定理。
+\end{itemize}
+\end{keybox}
+
+\begin{theorembox}[Theorem 5.3.2 --- 多連通區域的 Cauchy--Goursat 定理]
+若 $C,C_1,\dots,C_n$ 為正向簡單封閉曲線，$C_1,\dots,C_n$ 在 $C$ 內部且互不交，$f$ 在 $C$ 與所有 $C_k$ 之間的區域解析，則：
+$$\oint_C f(z)\dd{z}=\sum_{k=1}^n\oint_{C_k}f(z)\dd{z}$$
+\end{theorembox}
+
+\begin{keybox}[路徑變形原理]
+若 $C$ 包含非解析點（doubly connected domain），可重新定義 $C$ 為包含該點的更小圓 $C_1$，利用
+$$\oint_C f(z)\dd{z}=\oint_{C_1}f(z)\dd{z}$$
+$C_1$ 可選為方便計算的圓，半徑任意。
+\end{keybox}
+
+\begin{exbox}[重要結果]
+$$\oint_C\frac{\dd{z}}{(z-z_0)^n}=\begin{cases}2\pi\ii, & n=1\\ 0, & n\ge 2 \text{ 或 } n\le 0\end{cases}$$
+其中 $C$ 為包含 $z_0$ 的任意簡單封閉曲線。
+\end{exbox}
+
+%-------------------------------------------------------------
+\subsection{5.4 路徑獨立性 (Independence of Path)}
+%-------------------------------------------------------------
+
+\begin{theorembox}[Theorem 5.4.1 --- 解析性蘊含路徑獨立]
+若 $f$ 在\textbf{單連通區域} $D$ 內解析，$C$ 為 $D$ 內任意 contour，則 $\displaystyle\int_C f(z)\dd{z}$ 與路徑無關。
+\end{theorembox}
+
+\begin{keybox}[應用]
+若 $f$ 為 entire function（整函數，處處解析），則可自由選擇路徑計算積分。例如 $2z$ 為 entire function，可選擇任何方便的路徑。
+\end{keybox}
+
+%-------------------------------------------------------------
+\subsection{5.5 Cauchy 積分公式（若考試範圍包含）}
+%-------------------------------------------------------------
+
+\begin{theorembox}[Cauchy 積分公式]
+若 $f$ 在單連通區域 $D$ 內解析，$z_0$ 為 $D$ 中一點，$C$ 為 $D$ 內包含 $z_0$ 的正向簡單封閉曲線，則：
+$$f(z_0)=\frac{1}{2\pi\ii}\oint_C\frac{f(z)}{z-z_0}\dd{z}$$
+推廣：
+$$f^{(n)}(z_0)=\frac{n!}{2\pi\ii}\oint_C\frac{f(z)}{(z-z_0)^{n+1}}\dd{z}$$
+\end{theorembox}
+
+\newpage
+%=============================================================
+\section{級數與留數 (Series and Residues)}
+%=============================================================
+
+%-------------------------------------------------------------
+\subsection{6.1 序列與級數}
+%-------------------------------------------------------------
+
+\begin{defbox}[序列收斂]
+序列 $\{z_n\}$ 收斂至 $L=a+\ii b$ $\iff$ $\text{Re}(z_n)\to a$ 且 $\text{Im}(z_n)\to b$。
+\end{defbox}
+
+\subsubsection*{級數 (Series)}
+$$\sum_{k=1}^{\infty}z_k = z_1+z_2+z_3+\cdots$$
+
+\begin{theorembox}[幾何級數]
+$$\sum_{k=1}^{\infty}az^{k-1}=\frac{a}{1-z},\quad |z|<1$$
+\end{theorembox}
+
+\begin{keybox}[特殊幾何級數（必背！）]
+\begin{align}
+\frac{1}{1-z}&=1+z+z^2+z^3+\cdots, \quad |z|<1 \\[4pt]
+\frac{1}{1+z}&=1-z+z^2-z^3+\cdots, \quad |z|<1
+\end{align}
+\end{keybox}
+
+\begin{theorembox}[Theorem 6.1.2 --- 收斂的必要條件]
+若 $\displaystyle\sum_{k=1}^{\infty}z_k$ 收斂，則 $\displaystyle\lim_{n\to\infty}z_n=0$。
+\end{theorembox}
+
+\begin{theorembox}[Theorem 6.1.3 --- 第 $n$ 項發散判別法]
+若 $\displaystyle\lim_{n\to\infty}z_n\ne 0$，則 $\displaystyle\sum_{k=1}^{\infty}z_k$ 發散。
+\end{theorembox}
+
+\begin{defbox}[絕對收斂與條件收斂]
+\begin{itemize}[nosep]
+\item \textbf{絕對收斂}：$\displaystyle\sum_{k=1}^{\infty}|z_k|$ 收斂 $\Rightarrow$ $\displaystyle\sum_{k=1}^{\infty}z_k$ 絕對收斂。
+\item \textbf{條件收斂}：$\displaystyle\sum z_k$ 收斂但 $\displaystyle\sum|z_k|$ 發散。
+\end{itemize}
+\end{defbox}
+
+\subsubsection*{$p$-級數}
+$$\sum_{k=1}^{\infty}\frac{1}{k^p}\quad\text{收斂若 }p>1;\quad \text{發散若 }p\le 1.$$
+
+\begin{theorembox}[Theorem 6.1.4 --- 比值審斂法 (Ratio Test)]
+設 $\displaystyle L=\lim_{n\to\infty}\left|\frac{z_{n+1}}{z_n}\right|$，則：
+\begin{itemize}[nosep]
+\item $L<1$：絕對收斂
+\item $L>1$ 或 $L=\infty$：發散
+\item $L=1$：無法判定
+\end{itemize}
+\end{theorembox}
+
+\begin{theorembox}[Theorem 6.1.5 --- 根式審斂法 (Root Test)]
+設 $\displaystyle L=\lim_{n\to\infty}\sqrt[n]{|z_n|}$，則：
+\begin{itemize}[nosep]
+\item $L<1$：絕對收斂
+\item $L>1$ 或 $L=\infty$：發散
+\item $L=1$：無法判定
+\end{itemize}
+\end{theorembox}
+
+%-------------------------------------------------------------
+\subsection{6.1 續：冪級數 (Power Series)}
+%-------------------------------------------------------------
+
+\begin{defbox}[冪級數]
+以 $z_0$ 為中心：
+$$\sum_{k=0}^{\infty}a_k(z-z_0)^k = a_0+a_1(z-z_0)+a_2(z-z_0)^2+\cdots$$
+其中 $a_k$ 為複數常數。
+\end{defbox}
+
+\begin{keybox}[收斂半徑 $R$]
+冪級數 $\displaystyle\sum_{k=0}^{\infty}a_k(z-z_0)^k$ 在 $|z-z_0|<R$ 收斂，$|z-z_0|>R$ 發散。
+\begin{itemize}[nosep]
+\item $R=0$：僅在 $z=z_0$ 收斂（其餘發散）
+\item $0<R<\infty$：$|z-z_0|=R$ 為收斂圓
+\item $R=\infty$：在整個複數平面上收斂
+\end{itemize}
+
+\textbf{求 $R$ 的方法}：用 Ratio Test 或 Root Test，令結果 $<1$，解出 $|z-z_0|<R$。
+\end{keybox}
+
+\begin{exbox}[收斂半徑範例]
+$\displaystyle\sum_{k=1}^{\infty}\frac{(-1)^{k+1}}{k!}(z-1-\ii)^k$，中心 $z_0=1+\ii$。
+
+Ratio Test：$\displaystyle\lim_{n\to\infty}\left|\frac{z-1-\ii}{n+1}\right|=0<1$ 對所有 $z$ 成立。
+
+故 $R=\infty$。
+\end{exbox}
+
+%-------------------------------------------------------------
+\subsection{6.2 Taylor 級數}
+%-------------------------------------------------------------
+
+\begin{keybox}[冪級數在收斂半徑內的性質]
+在 $|z-z_0|<R$ 內，冪級數 $\displaystyle\sum_{k=0}^{\infty}a_k(z-z_0)^k$：
+\begin{enumerate}[nosep]
+\item \textbf{連續} (Thm 6.2.1)
+\item \textbf{可逐項微分} (Thm 6.2.2)
+\item \textbf{可逐項積分} (Thm 6.2.3)
+\end{enumerate}
+\end{keybox}
+
+\begin{theorembox}[Theorem 6.2.4 --- Taylor 定理]
+若 $f$ 在區域 $D$ 內解析，$z_0\in D$，則 $f$ 有級數表示：
+$$f(z)=\sum_{k=0}^{\infty}\frac{f^{(k)}(z_0)}{k!}(z-z_0)^k$$
+對以 $z_0$ 為中心、完全在 $D$ 內的最大圓有效。
+\end{theorembox}
+
+\begin{keybox}[Taylor 級數的係數]
+$$a_k=\frac{f^{(k)}(z_0)}{k!}, \quad k=0,1,2,\dots$$
+即 $a_0=f(z_0),\; a_1=f'(z_0),\; a_2=\dfrac{f''(z_0)}{2!},\;\dots$
+\end{keybox}
+
+\begin{keybox}[收斂半徑 $R$ = 中心 $z_0$ 到最近 isolated singularity 的距離]
+\end{keybox}
+
+\subsubsection*{Maclaurin 級數（$z_0=0$ 的 Taylor 級數）---\,必背！}
+
+\begin{keybox}[三大 Maclaurin 級數]
+\begin{align}
+\ee^z &= 1+z+\frac{z^2}{2!}+\frac{z^3}{3!}+\cdots = \sum_{k=0}^{\infty}\frac{z^k}{k!}, \quad R=\infty \\[6pt]
+\sin z &= z-\frac{z^3}{3!}+\frac{z^5}{5!}-\cdots = \sum_{k=0}^{\infty}(-1)^k\frac{z^{2k+1}}{(2k+1)!}, \quad R=\infty \\[6pt]
+\cos z &= 1-\frac{z^2}{2!}+\frac{z^4}{4!}-\cdots = \sum_{k=0}^{\infty}(-1)^k\frac{z^{2k}}{(2k)!}, \quad R=\infty
+\end{align}
+\end{keybox}
+
+\begin{exbox}[Taylor 展開技巧]
+\textbf{方法一}：直接利用已知 Maclaurin 級數做代換。\\
+例：$\ee^{-z^2}$：將 $z$ 換成 $-z^2$ 代入 $\ee^z$ 的展開式。\\
+例：$\sin 3z$：將 $z$ 換成 $3z$ 代入 $\sin z$ 的展開式。
+
+\textbf{方法二}：利用微分或積分。\\
+例：$\dfrac{1}{(1-z)^2}=\left(\dfrac{1}{1-z}\right)'=\displaystyle\sum_{k=1}^{\infty}kz^{k-1}$，$|z|<1$。
+
+\textbf{方法三}：改寫成 $\dfrac{a}{1\pm\square}$ 的形式再展開。\\
+例：$f(z)=\dfrac{1}{1-z}$ 以 $z_0=2\ii$ 為中心：
+$$f(z)=\frac{1}{1-2\ii-(z-2\ii)}=\frac{1}{1-2\ii}\cdot\frac{1}{1-\frac{z-2\ii}{1-2\ii}}$$
+再用 $\dfrac{1}{1-w}=\displaystyle\sum_{k=0}^{\infty}w^k$ 展開。
+\end{exbox}
+
+%-------------------------------------------------------------
+\subsection{6.3 Laurent 級數}
+%-------------------------------------------------------------
+
+\begin{defbox}[奇異點 (Singularity)]
+\begin{itemize}[nosep]
+\item 若 $f(z)$ 在 $z=z_0$ 不解析，則 $z_0$ 為 $f$ 的\textbf{奇異點}（singular point）。
+\item \textbf{孤立奇異點 (isolated singularity)}：存在去心鄰域使 $f$ 在其中解析。
+\item \textbf{非孤立奇異點}：例如 $f(z)=\ln z$，分支切線上每一點。
+\end{itemize}
+\end{defbox}
+
+\begin{theorembox}[Theorem 6.3.1 --- Laurent 定理]
+若 $f$ 在環形區域 $r<|z-z_0|<R$ 內解析，則
+$$f(z)=\sum_{k=-\infty}^{\infty}a_k(z-z_0)^k$$
+其中
+$$a_k=\frac{1}{2\pi\ii}\oint_C\frac{f(z)}{(z-z_0)^{k+1}}\dd{z},\quad k=0,\pm1,\pm2,\dots$$
+$C$ 為環形區域內的任意正向簡單封閉曲線。
+\end{theorembox}
+
+\begin{keybox}[Laurent 級數的結構]
+$$f(z)=\underbrace{\cdots+\frac{a_{-2}}{(z-z_0)^2}+\frac{a_{-1}}{z-z_0}}_{\text{主部 (principal part)}}+\underbrace{a_0+a_1(z-z_0)+a_2(z-z_0)^2+\cdots}_{\text{解析部分 (analytic part)}}$$
+\end{keybox}
+
+\begin{keybox}[Laurent 展開的核心技巧]
+\textbf{目標}：將 $f(z)$ 寫成 $\dfrac{a}{1\pm\square}$ 的形式，其中 $|\square|<1$。
+
+根據環形區域的條件判斷哪個量小於 1：
+\begin{itemize}[nosep]
+\item 若 $|z|<R$（$z$ 在小圓內）：令 $\square$ 中含 $z$（或 $z-z_0$），使 $|\square|<1$。
+\item 若 $|z|>r$（$z$ 在大圓外）：令 $\square$ 中含 $\dfrac{1}{z}$（或 $\dfrac{1}{z-z_0}$），使 $|\square|<1$。
+\end{itemize}
+\end{keybox}
+
+\begin{exbox}[經典範例：$f(z)=\dfrac{1}{z(z-1)}$ 的四種 Laurent 展開]
+\textbf{(a) $0<|z|<1$：}
+$$f(z)=\frac{-1}{z}\cdot\frac{1}{1-z}=\frac{-1}{z}(1+z+z^2+\cdots)=\frac{-1}{z}-1-z-z^2-\cdots$$
+
+\textbf{(b) $1<|z|$（即 $|z|>1$）：}
+$$f(z)=\frac{1}{z^2}\cdot\frac{1}{1-\frac{1}{z}}=\frac{1}{z^2}\left(1+\frac{1}{z}+\frac{1}{z^2}+\cdots\right)=\frac{1}{z^2}+\frac{1}{z^3}+\frac{1}{z^4}+\cdots$$
+（全部為主部）
+
+\textbf{(c) $0<|z-1|<1$：}
+$$f(z)=\frac{1}{z-1}\cdot\frac{1}{1+(z-1)}=\frac{1}{z-1}\bigl[1-(z-1)+(z-1)^2-\cdots\bigr]$$
+
+\textbf{(d) $1<|z-1|$：}
+$$f(z)=\frac{1}{(z-1)^2}\cdot\frac{1}{1+\frac{1}{z-1}}=\frac{1}{(z-1)^2}-\frac{1}{(z-1)^3}+\cdots$$
+\end{exbox}
+
+\begin{exbox}[利用已知級數做 Laurent 展開]
+$f(z)=\ee^{3/z}$，$0<|z|<\infty$。
+
+將 $\ee^w=\displaystyle\sum_{k=0}^{\infty}\frac{w^k}{k!}$ 中 $w=\dfrac{3}{z}$ 代入：
+$$\ee^{3/z}=\sum_{k=0}^{\infty}\frac{(3/z)^k}{k!}=1+\frac{3}{z}+\frac{9}{2!\,z^2}+\frac{27}{3!\,z^3}+\cdots$$
+由 Ratio Test：只要 $z\ne 0$ 即收斂。
+\end{exbox}
+
+\begin{exbox}[展開 $\dfrac{\sin z}{z^4}$ 做 Laurent 級數]
+$$\frac{\sin z}{z^4}=\frac{1}{z^4}\left(z-\frac{z^3}{3!}+\frac{z^5}{5!}-\cdots\right)=\frac{1}{z^3}-\frac{1}{3!\,z}+\frac{z}{5!}-\frac{z^3}{7!}+\cdots$$
+主部為 $\dfrac{1}{z^3}-\dfrac{1}{6z}$，解析部分為 $\dfrac{z}{5!}-\cdots$。有效範圍 $|z|>0$。
+\end{exbox}
+
+\newpage
+%=============================================================
+\section{考試常用公式與技巧速查}
+%=============================================================
+
+\subsection*{A. 幾何級數公式}
+\begin{align}
+\frac{1}{1-w}&=\sum_{k=0}^{\infty}w^k, \quad |w|<1 \\[4pt]
+\frac{1}{1+w}&=\sum_{k=0}^{\infty}(-1)^k w^k, \quad |w|<1
+\end{align}
+
+\subsection*{B. 三大 Maclaurin 展開}
+\begin{align}
+\ee^z&=\sum_{k=0}^{\infty}\frac{z^k}{k!} & \sin z&=\sum_{k=0}^{\infty}(-1)^k\frac{z^{2k+1}}{(2k+1)!} & \cos z&=\sum_{k=0}^{\infty}(-1)^k\frac{z^{2k}}{(2k)!}
+\end{align}
+
+\subsection*{C. 圍道積分關鍵結果}
+$$\oint_C\frac{\dd{z}}{(z-z_0)^n}=\begin{cases}2\pi\ii & n=1\\0 & n\ne 1\end{cases}$$
+（$C$ 包含 $z_0$，正向）
+
+\subsection*{D. Cauchy--Goursat 定理速查}
+\begin{center}
+\begin{tabular}{|l|c|}
+\hline
+\textbf{條件} & \textbf{結果} \\
+\hline
+$f$ 在 $C$ 內部解析（simply connected） & $\oint_C f\dd{z}=0$ \\
+$C$ 不包含奇異點 & $\oint_C f\dd{z}=0$ \\
+$C$ 包含奇異點（multiply connected） & 用路徑變形或部分分式 \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection*{E. 收斂性判別流程}
+
+\begin{enumerate}[nosep]
+\item 先用\textbf{第 $n$ 項判別法}：若 $\lim z_n\ne 0$，直接發散。
+\item 若含階乘 $k!$ 或指數，用 \textbf{Ratio Test}。
+\item 若第 $k$ 項整體是 $(\cdots)^k$ 形式，用 \textbf{Root Test}。
+\item 可比較 $p$-級數：$\sum 1/k^p$，$p>1$ 收斂。
+\end{enumerate}
+
+\subsection*{F. Laurent 展開策略}
+
+\begin{enumerate}[nosep]
+\item 做\textbf{部分分式}分解。
+\item 根據環形區域決定哪個量 $<1$。
+\item 改寫成 $\dfrac{a}{1\pm\square}$ 形式（$|\square|<1$）。
+\item 展開為幾何級數。
+\item 或利用已知 Maclaurin 級數做代換（$\ee^{1/z},\;\dfrac{\sin z}{z^n}$ 等）。
+\end{enumerate}
+
+\subsection*{G. Taylor 級數收斂半徑的求法}
+
+\begin{enumerate}[nosep]
+\item \textbf{Ratio Test}：$\displaystyle\lim_{n\to\infty}\left|\frac{a_{n+1}}{a_n}(z-z_0)\right|<1$，解出 $|z-z_0|<R$。
+\item \textbf{Root Test}：$\displaystyle\lim_{n\to\infty}\sqrt[n]{|a_n|}\cdot|z-z_0|<1$。
+\item \textbf{幾何意義}：$R=$ 中心 $z_0$ 到 $f$ 最近\textbf{孤立奇異點}的距離。
+\end{enumerate}
+
+\end{document}

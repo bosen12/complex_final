@@ -1,0 +1,383 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\setCJKmainfont{Microsoft JhengHei}
+\setCJKsansfont{Microsoft JhengHei}
+\setCJKmonofont{Microsoft JhengHei}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\geometry{margin=2cm}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems,skins,breakable}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue!70!black}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small 複變函數期末模擬試題}
+\fancyhead[R]{\small \thepage}
+\setlength{\headheight}{14pt}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\newtcolorbox{qbox}[1][]{
+  colback=blue!5!white, colframe=blue!60!black,
+  fonttitle=\bfseries, title=#1, breakable
+}
+\newtcolorbox{solbox}[1][]{
+  colback=green!3!white, colframe=green!50!black,
+  fonttitle=\bfseries, title=#1, breakable
+}
+\newtcolorbox{ansbox}{
+  colback=red!5!white, colframe=red!60!black,
+  fonttitle=\bfseries, title=答案, breakable
+}
+
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\ee}{\mathrm{e}}
+\newcommand{\Res}{\operatorname{Res}}
+
+\begin{document}
+
+\begin{center}
+{\LARGE\bfseries 複變函數期末模擬試題}\\[6pt]
+{\large 共 14 題（含詳解）}\\[4pt]
+\end{center}
+
+\bigskip
+
+%==================================================================
+% Q1
+%==================================================================
+\begin{qbox}[第 1 題\,---\,ML 不等式]
+$C:|z|=5$，用 ML 不等式求 $\displaystyle\left|\oint_C\frac{\ee^{3z}}{z-2}\dd{z}\right|$ 的上界。若結果為 $a\pi\ee^b$，求 $a+b$。
+\end{qbox}
+
+\begin{solbox}[解]
+$L=2\pi\cdot 5=10\pi$。
+
+$|\ee^{3z}|=\ee^{3\text{Re}(z)}\le\ee^{15}$（$\text{Re}(z)\le 5$）。
+
+$|z-2|\ge||z|-2|=3$，故 $\dfrac{1}{|z-2|}\le\dfrac{1}{3}$。
+
+$M=\dfrac{\ee^{15}}{3}$。
+
+$$\left|\oint_C\frac{\ee^{3z}}{z-2}\dd{z}\right|\le ML=\frac{\ee^{15}}{3}\cdot 10\pi=\frac{10\pi\ee^{15}}{3}$$
+
+$a=\dfrac{10}{3}$，$b=15$。
+\end{solbox}
+
+\begin{ansbox}
+$a+b=\dfrac{10}{3}+15=\boxed{\dfrac{55}{3}}$
+\end{ansbox}
+
+%==================================================================
+% Q2
+%==================================================================
+\begin{qbox}[第 2 題\,---\,Cauchy--Goursat 與部分分式]
+計算 $\displaystyle\oint_C\frac{6z}{(z+2)(z-1)(z-4)}\dd{z}$
+
+(a) $C:|z|=3$，求積分值。
+
+(b) $C:|z|=5$，求積分值。
+\end{qbox}
+
+\begin{solbox}[解]
+部分分式：$\dfrac{6z}{(z+2)(z-1)(z-4)}=\dfrac{A}{z+2}+\dfrac{B}{z-1}+\dfrac{C}{z-4}$
+
+$A=\dfrac{6(-2)}{(-2-1)(-2-4)}=\dfrac{-12}{18}=-\dfrac{2}{3}$
+
+$B=\dfrac{6(1)}{(1+2)(1-4)}=\dfrac{6}{-9}=-\dfrac{2}{3}$
+
+$C=\dfrac{6(4)}{(4+2)(4-1)}=\dfrac{24}{18}=\dfrac{4}{3}$
+
+\textbf{(a) $|z|=3$}：$z=-2$ 和 $z=1$ 在圓內，$z=4$ 在圓外。
+$$=\left(-\frac{2}{3}+\left(-\frac{2}{3}\right)\right)\cdot 2\pi\ii=-\frac{4}{3}\cdot 2\pi\ii=-\frac{8\pi\ii}{3}$$
+
+\textbf{(b) $|z|=5$}：三個奇異點都在圓內。
+$$=\left(-\frac{2}{3}-\frac{2}{3}+\frac{4}{3}\right)\cdot 2\pi\ii=0$$
+\end{solbox}
+
+\begin{ansbox}
+(a) $\boxed{-\dfrac{8\pi\ii}{3}}$ \qquad (b) $\boxed{0}$
+\end{ansbox}
+
+%==================================================================
+% Q3
+%==================================================================
+\begin{qbox}[第 3 題\,---\,複數線積分]
+計算 $\displaystyle\int_C(x-\ii y^2)\dd{z}$，$C$ 為從 $1$ 到 $1+2\ii$ 的直線段。求實部值。
+\end{qbox}
+
+\begin{solbox}[解]
+$C$：$z(t)=1+2\ii t$，$0\le t\le 1$。故 $x=1$，$y=2t$，$\dd{z}=2\ii\dd{t}$。
+
+$$\int_C(x-\ii y^2)\dd{z}=\int_0^1(1-\ii(2t)^2)\cdot 2\ii\dd{t}=\int_0^1(1-4\ii t^2)\cdot 2\ii\dd{t}$$
+$$=\int_0^1(2\ii-8\ii^2 t^2)\dd{t}=\int_0^1(2\ii+8t^2)\dd{t}$$
+$$=\left[8\cdot\frac{t^3}{3}+2\ii t\right]_0^1=\frac{8}{3}+2\ii$$
+\end{solbox}
+
+\begin{ansbox}
+實部 $=\boxed{\dfrac{8}{3}}$
+\end{ansbox}
+
+%==================================================================
+% Q4
+%==================================================================
+\begin{qbox}[第 4 題\,---\,Cauchy 不等式]
+$C:|z|=3$，$f(z)=\sin z$，用 Cauchy's inequality 求 $|f^{(2)}(0)|$ 的上界。（提示：$\sinh 3\approx 10.018$）
+\end{qbox}
+
+\begin{solbox}[解]
+$z_0=0$，$R=3$，$n=2$。
+
+在 $|z|=3$ 上：$|\sin z|=\left|\dfrac{\ee^{\ii z}-\ee^{-\ii z}}{2\ii}\right|\le\dfrac{|\ee^{\ii z}|+|\ee^{-\ii z}|}{2}$
+
+$|\ee^{\ii z}|=\ee^{-\text{Im}(z)}$，在 $|z|=3$ 上，$|\text{Im}(z)|\le 3$，故 $|\ee^{\ii z}|\le\ee^3$，$|\ee^{-\ii z}|\le\ee^3$。
+
+$M=\dfrac{\ee^3+\ee^{-3}}{2}=\cosh 3$。但更簡單的上界：$|\sin z|\le\sinh|z|=\sinh 3$。
+
+實際更精確：$|\sin z|\le\cosh(\text{Im}(z))\le\cosh 3$。不過用 $\sinh 3$ 也可。
+
+取 $M=\sinh 3\approx 10.018$：
+
+$$|f''(0)|\le\frac{2!\cdot\sinh 3}{3^2}=\frac{2\sinh 3}{9}\approx\frac{20.036}{9}\approx 2.226$$
+
+（實際上 $f''(0)=-\sin 0=0$，但 Cauchy 不等式給出上界。）
+\end{solbox}
+
+\begin{ansbox}
+$|f''(0)|$ 的上界 $\le\boxed{\dfrac{2\sinh 3}{9}\approx 2.23}$
+\end{ansbox}
+
+%==================================================================
+% Q5
+%==================================================================
+\begin{qbox}[第 5 題\,---\,Maclaurin 展開與收斂半徑]
+將 $f(z)=\dfrac{1}{3+z}$ 展開為 Maclaurin series，求收斂半徑 $R$。
+\end{qbox}
+
+\begin{solbox}[解]
+$$f(z)=\frac{1}{3+z}=\frac{1}{3}\cdot\frac{1}{1+z/3}=\frac{1}{3}\sum_{k=0}^{\infty}(-1)^k\left(\frac{z}{3}\right)^k=\sum_{k=0}^{\infty}\frac{(-1)^k}{3^{k+1}}z^k$$
+
+收斂條件：$\left|\dfrac{z}{3}\right|<1$，即 $|z|<3$。
+
+奇異點 $z=-3$，距原點 $=3$。
+\end{solbox}
+
+\begin{ansbox}
+$R=\boxed{3}$
+\end{ansbox}
+
+%==================================================================
+% Q6
+%==================================================================
+\begin{qbox}[第 6 題\,---\,圍道積分與奇異點]
+$C:|z-\ii|=1$，計算 $\displaystyle\oint_C\frac{\ee^z}{z^2+1}\dd{z}=k\pi$，求 $k$。
+\end{qbox}
+
+\begin{solbox}[解]
+$\dfrac{\ee^z}{z^2+1}=\dfrac{\ee^z}{(z+\ii)(z-\ii)}$。奇異點 $z=\pm\ii$。
+
+$|z-\ii|=1$ 包含 $z=\ii$，不包含 $z=-\ii$（因為 $|-\ii-\ii|=|-2\ii|=2>1$）。
+
+$$\oint_C\frac{\ee^z}{(z+\ii)(z-\ii)}\dd{z}=2\pi\ii\cdot\frac{\ee^\ii}{\ii+\ii}=2\pi\ii\cdot\frac{\ee^\ii}{2\ii}=\pi\ee^\ii$$
+
+$\ee^\ii=\cos 1+\ii\sin 1$。
+
+$$=\pi(\cos 1+\ii\sin 1)$$
+
+若題目要求寫成 $k\pi\ii$ 的形式，不完全是純虛數。結果為 $\pi\cos 1+\pi\ii\sin 1$。
+\end{solbox}
+
+\begin{ansbox}
+$\displaystyle\oint_C\frac{\ee^z}{z^2+1}\dd{z}=\boxed{\pi\ee^\ii=\pi\cos 1+\pi\ii\sin 1}$
+\end{ansbox}
+
+%==================================================================
+% Q7
+%==================================================================
+\begin{qbox}[第 7 題\,---\,殘值]
+求 $\ee^{2/z}$ 在 $z=0$ 的殘值。
+\end{qbox}
+
+\begin{solbox}[解]
+$$\ee^{2/z}=\sum_{k=0}^{\infty}\frac{(2/z)^k}{k!}=1+\frac{2}{z}+\frac{4}{2!\,z^2}+\frac{8}{3!\,z^3}+\cdots$$
+
+殘值 $=$ $\dfrac{1}{z}$ 的係數 $=2$。
+\end{solbox}
+
+\begin{ansbox}
+$\Res(\ee^{2/z},0)=\boxed{2}$
+\end{ansbox}
+
+%==================================================================
+% Q8
+%==================================================================
+\begin{qbox}[第 8 題\,---\,Laurent 展開]
+將 $f(z)=\dfrac{1}{z(z-2)}$ 以 $|z|>2$ 展開成 Laurent series，求第四項。
+\end{qbox}
+
+\begin{solbox}[解]
+$$\frac{1}{z(z-2)}=\frac{1}{z}\cdot\frac{1}{z-2}=\frac{1}{z^2}\cdot\frac{1}{1-2/z}=\frac{1}{z^2}\sum_{k=0}^{\infty}\left(\frac{2}{z}\right)^k=\sum_{k=0}^{\infty}\frac{2^k}{z^{k+2}}$$
+
+$$=\frac{1}{z^2}+\frac{2}{z^3}+\frac{4}{z^4}+\frac{8}{z^5}+\cdots$$
+
+第四項（$k=3$）：$\dfrac{8}{z^5}$。
+\end{solbox}
+
+\begin{ansbox}
+第四項 $=\boxed{\dfrac{8}{z^5}}$
+\end{ansbox}
+
+%==================================================================
+% Q9
+%==================================================================
+\begin{qbox}[第 9 題\,---\,實數積分]
+$\displaystyle\int_0^{\infty}\frac{3\sin x}{x}\dd{x}=?$
+\end{qbox}
+
+\begin{solbox}[解]
+$$\int_0^{\infty}\frac{\sin x}{x}\dd{x}=\frac{\pi}{2}$$
+
+$$\int_0^{\infty}\frac{3\sin x}{x}\dd{x}=3\cdot\frac{\pi}{2}=\frac{3\pi}{2}$$
+\end{solbox}
+
+\begin{ansbox}
+$\boxed{\dfrac{3\pi}{2}\approx 4.712}$
+\end{ansbox}
+
+%==================================================================
+% Q10
+%==================================================================
+\begin{qbox}[第 10 題\,---\,三角積分]
+$\displaystyle\int_0^{2\pi}\frac{1}{5+4\cos\theta}\dd{\theta}=?$
+\end{qbox}
+
+\begin{solbox}[解]
+令 $z=\ee^{\ii\theta}$，$\cos\theta=\dfrac{z+z^{-1}}{2}$，$\dd{\theta}=\dfrac{\dd{z}}{\ii z}$。
+
+$$\int_0^{2\pi}\frac{1}{5+4\cos\theta}\dd{\theta}=\oint_{|z|=1}\frac{1}{5+4\cdot\frac{z+z^{-1}}{2}}\cdot\frac{\dd{z}}{\ii z}$$
+$$=\oint_{|z|=1}\frac{1}{5+2z+2z^{-1}}\cdot\frac{\dd{z}}{\ii z}=\oint_{|z|=1}\frac{\dd{z}}{\ii(5z+2z^2+2)}$$
+$$=\frac{1}{\ii}\oint_{|z|=1}\frac{\dd{z}}{2z^2+5z+2}=\frac{1}{2\ii}\oint_{|z|=1}\frac{\dd{z}}{(z+2)(z+1/2)}$$
+
+$z=-\dfrac{1}{2}$ 在單位圓內，$z=-2$ 在圓外。
+
+$$\Res\left(\frac{1}{(z+2)(z+1/2)},\,-\frac{1}{2}\right)=\frac{1}{-1/2+2}=\frac{1}{3/2}=\frac{2}{3}$$
+
+$$=\frac{1}{2\ii}\cdot 2\pi\ii\cdot\frac{2}{3}=\frac{2\pi}{3}$$
+\end{solbox}
+
+\begin{ansbox}
+$\boxed{\dfrac{2\pi}{3}}$
+\end{ansbox}
+
+%==================================================================
+% Q11
+%==================================================================
+\begin{qbox}[第 11 題\,---\,線性分式變換]
+$|z|=1$ 在 $T(z)=\dfrac{z+1}{z-1}$ 映射後為？
+\end{qbox}
+
+\begin{solbox}[解]
+令 $z=\ee^{\ii\theta}$，$|z|=1$：
+
+$$w=\frac{\ee^{\ii\theta}+1}{\ee^{\ii\theta}-1}=\frac{(\cos\theta+1)+\ii\sin\theta}{(\cos\theta-1)+\ii\sin\theta}$$
+
+分子分母乘以共軛 $(\cos\theta-1)-\ii\sin\theta$：
+
+分子 $=(\cos\theta+1)(\cos\theta-1)-\ii(\cos\theta+1)\sin\theta+\ii\sin\theta(\cos\theta-1)+\sin^2\theta$
+$=\cos^2\theta-1+\sin^2\theta+\ii\sin\theta[(\cos\theta-1)-(\cos\theta+1)]$
+$=0+\ii(-2\sin\theta)=-2\ii\sin\theta$
+
+分母 $=(\cos\theta-1)^2+\sin^2\theta=2-2\cos\theta$
+
+$$w=\frac{-2\ii\sin\theta}{2(1-\cos\theta)}=\frac{-\ii\sin\theta}{1-\cos\theta}$$
+
+$w$ 為純虛數，故映射為\textbf{虛軸}。
+\end{solbox}
+
+\begin{ansbox}
+映射後為\boxed{\text{虛軸（}\text{Re}(w)=0\text{）}}
+\end{ansbox}
+
+%==================================================================
+% Q12
+%==================================================================
+\begin{qbox}[第 12 題\,---\,8 字形圍道]
+$C$ 為 8 字形，$C_1$（逆時針包含 $z=0$）和 $C_2$（順時針包含 $z=2$）。
+
+計算 $\displaystyle\oint_{C_1}\frac{3z-4}{z^2-2z}\dd{z}=k_1\cdot 2\pi\ii$ 和 $\displaystyle\oint_{C_2}\frac{3z-4}{z^2-2z}\dd{z}=k_2\cdot 2\pi\ii$。
+\end{qbox}
+
+\begin{solbox}[解]
+$\dfrac{3z-4}{z^2-2z}=\dfrac{3z-4}{z(z-2)}=\dfrac{A}{z}+\dfrac{B}{z-2}$
+
+$A=\dfrac{3(0)-4}{0-2}=2$，$B=\dfrac{3(2)-4}{2}=1$。
+
+\textbf{$C_1$}（逆時針，含 $z=0$）：
+$$\oint_{C_1}\frac{3z-4}{z(z-2)}\dd{z}=2\cdot 2\pi\ii+0=4\pi\ii$$
+$k_1=2$。
+
+\textbf{$C_2$}（順時針，含 $z=2$）：
+$$\oint_{C_2}\frac{3z-4}{z(z-2)}\dd{z}=0+1\cdot(-2\pi\ii)=-2\pi\ii$$
+$k_2=-1$。
+\end{solbox}
+
+\begin{ansbox}
+$k_1=\boxed{2}$，$k_2=\boxed{-1}$
+\end{ansbox}
+
+%==================================================================
+% Q13
+%==================================================================
+\begin{qbox}[第 13 題\,---\,混合積分]
+$C:|z|=1$，計算 $\displaystyle\oint_C\left(\frac{3}{z}+\cos z+z^2+1\right)\dd{z}=k\cdot 2\pi\ii$，求 $k$。
+\end{qbox}
+
+\begin{solbox}[解]
+\begin{itemize}
+\item $\displaystyle\oint_C\frac{3}{z}\dd{z}=3\cdot 2\pi\ii=6\pi\ii$
+\item $\displaystyle\oint_C\cos z\dd{z}=0$（entire function）
+\item $\displaystyle\oint_C z^2\dd{z}=0$（entire function）
+\item $\displaystyle\oint_C 1\dd{z}=0$（entire function）
+\end{itemize}
+
+$$\text{Total}=6\pi\ii=3\cdot 2\pi\ii$$
+\end{solbox}
+
+\begin{ansbox}
+$k=\boxed{3}$
+\end{ansbox}
+
+%==================================================================
+% Q14
+%==================================================================
+\begin{qbox}[第 14 題\,---\,殘值計算]
+(a) $f(z)=\dfrac{3z+5}{z-2}$，求 $\Res(f(z),2)$。
+
+(b) $f(z)=(z-1)^2\cos\!\left(\dfrac{1}{z-1}\right)$，求 $\Res(f(z),1)$。
+\end{qbox}
+
+\begin{solbox}[解]
+\textbf{(a)} $z=2$ 為一階極點：
+$$\Res(f(z),2)=\lim_{z\to 2}(z-2)\cdot\frac{3z+5}{z-2}=3(2)+5=11$$
+
+\textbf{(b)} 令 $w=z-1$，$f=w^2\cos\!\left(\dfrac{1}{w}\right)$。
+
+$$\cos\!\left(\frac{1}{w}\right)=1-\frac{1}{2!\,w^2}+\frac{1}{4!\,w^4}-\cdots$$
+
+$$w^2\cos\!\left(\frac{1}{w}\right)=w^2-\frac{1}{2!}+\frac{1}{4!\,w^2}-\frac{1}{6!\,w^4}+\cdots$$
+
+$\dfrac{1}{w}$ 的係數為 $0$（沒有 $w^{-1}$ 項）。
+\end{solbox}
+
+\begin{ansbox}
+(a) $\Res(f(z),2)=\boxed{11}$
+
+(b) $\Res(f(z),1)=\boxed{0}$
+\end{ansbox}
+
+\end{document}
